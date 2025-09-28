@@ -121,10 +121,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [BASE_DIR / "static"]
+# Remove STATICFILES_DIRS in production
+if DEBUG:
+    STATICFILES_DIRS = [BASE_DIR / "static"]
+
+# Always set STATIC_ROOT for production
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# Add this for whitenoise
+# Whitenoise configuration
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
