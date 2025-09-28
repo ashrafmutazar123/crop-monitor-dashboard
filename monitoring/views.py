@@ -46,9 +46,15 @@ def api_chart_data(request):
     cutoff_time = timezone.now() - timedelta(hours=24)
     queryset = CropData.objects.filter(timestamp__gte=cutoff_time).order_by('timestamp')
     
+    # Make sure we have data
+    if not queryset.exists():
+        create_sample_data()
+        queryset = CropData.objects.filter(timestamp__gte=cutoff_time).order_by('timestamp')
+    
     data = {
         'timestamps': [item.timestamp.strftime('%H:%M') for item in queryset],
         'soil_moisture': [float(item.soil_moisture) for item in queryset],
+        'soil_ec': [float(item.soil_ec) for item in queryset],  # ADD THIS LINE!
         'soil_ph': [float(item.soil_ph) for item in queryset],
         'vpd': [float(item.vpd) for item in queryset],
         'light_intensity': [float(item.light_intensity)/1000 for item in queryset],  # Convert to klux
