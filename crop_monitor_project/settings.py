@@ -121,14 +121,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 
-# Remove STATICFILES_DIRS in production
-if DEBUG:
-    STATICFILES_DIRS = [BASE_DIR / "static"]
+# For development AND production - keep it simple!
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
-# Always set STATIC_ROOT for production
+# For production - where collectstatic puts files
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# Whitenoise configuration
+# Whitenoise will handle serving from STATIC_ROOT
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
